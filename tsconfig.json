@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": false,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowJs": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "rootDir": "./",
+    "baseUrl": "./",
+    "paths": {
+      "@root/*":["src/*"],
+      "@app/*":["src/app/*"],
+      "@config/*":["src/config/*"],
+      "@providers/*":["src/providers/*"],
+      "@repositories/*":["src/repositories/*"],
+      "@transactions/*":["src/transactions/*"],
+      "@resources/*":["src/resources/*"]
+    },
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/@types"
+    ],
+    "incremental": true,
+    "skipLibCheck": true
+  }
+}
