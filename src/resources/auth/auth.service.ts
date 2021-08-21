@@ -5,8 +5,8 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Bcrypt } from '@root/providers/cryptography/implementations/bcrypt';
-import { CommonUserEntity } from '@entities/users/common-user-entity';
+import { UserEntity } from '@entities/users/user.entity';
+import { Bcrypt } from '@providers/cryptography/implementations/bcrypt';
 import { UsersService } from '../users/users.service';
 import { AuthUserDto } from './dto/auth-user.dto';
 import { PayloadObject } from './type/palyload-object';
@@ -16,10 +16,10 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-    @Inject('HASH_PROVIDER') private hash: Bcrypt,
+    private hash: Bcrypt,
   ) {}
 
-  private generateToken(user: CommonUserEntity): string {
+  private generateToken(user: UserEntity): string {
     const payload: PayloadObject = { email: user.email, id: user.id };
     return this.jwtService.sign(payload);
   }

@@ -1,15 +1,16 @@
+import { User } from '@prisma/client';
+import { UserEntity } from '@root/entities/users/user.entity';
 import { CreateUserDto } from '@root/resources/users/dto/create-user.dto';
 import { UpdateUserDto } from '@root/resources/users/dto/update-user.dto';
-import { IUser } from '@entities/users/user-interface';
 import { IBaseRepository } from '../interface/base-repository';
 
 export abstract class AbstractUsersRepository
-  implements IBaseRepository<IUser, IUser['id']>
+  implements IBaseRepository<UserEntity>
 {
-  abstract create(dto: CreateUserDto): Promise<IUser>;
-  abstract findAll(): Promise<IUser[]>;
-  abstract findOne(id: IUser['id']): Promise<IUser>;
-  abstract findByEmail(email: IUser['email']): Promise<IUser>;
-  abstract update(id: IUser['id'], dto: UpdateUserDto): Promise<IUser>;
-  abstract remove(id: IUser['id']): Promise<void>;
+  abstract create(dto: CreateUserDto): Promise<UserEntity>;
+  abstract findAll(): Promise<UserEntity[]>;
+  abstract findOne(id: User['id']): Promise<UserEntity>;
+  abstract findByEmail(email: User['email']): Promise<UserEntity>;
+  abstract update(id: User['id'], dto: UpdateUserDto): Promise<UserEntity>;
+  abstract remove(id: User['id']): Promise<void>;
 }

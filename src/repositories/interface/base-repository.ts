@@ -1,11 +1,14 @@
-export interface IBaseRepository<T, id> {
+interface WithId {
+  id?: string;
+}
+export interface IBaseRepository<T extends WithId> {
   create(dto: any): Promise<T>;
 
   findAll(): Promise<T[]>;
 
-  findOne(id: id): Promise<T>;
+  findOne(id: T['id']): Promise<T>;
 
-  update(id: id, dto: any): Promise<T>;
+  update(id: T['id'], dto: any): Promise<T>;
 
-  remove(id: id): Promise<void>;
+  remove(id: T['id']): Promise<void>;
 }

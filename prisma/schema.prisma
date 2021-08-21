@@ -2,17 +2,16 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = "mongodb"
+  provider = "postgres"
   url      = env("DATABASE_URL")
 }
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["mongoDb"]
+  provider = "prisma-client-js"
 }
 
 model User {
-  id          String        @id @default(uuid()) @map("_id")
+  id          String        @id @default(uuid())
   name        String
   email       String        @unique
   password    String
@@ -20,7 +19,7 @@ model User {
 }
 
 model Transaction {
-  id          String  @id @default(uuid()) @map("_id")
+  id          String  @id @default(uuid())
   value       Decimal
   title       String
   description String

@@ -1,6 +1,7 @@
 import { IsEmail, IsNotEmpty, IsString, MaxLength } from 'class-validator';
+import { Prisma } from '@prisma/client';
 
-export class CreateUserDto {
+export class CreateUserDto implements Prisma.UserUncheckedCreateInput {
   @IsNotEmpty()
   @IsString()
   @MaxLength(100)

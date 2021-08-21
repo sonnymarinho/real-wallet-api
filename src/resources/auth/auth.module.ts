@@ -16,13 +16,6 @@ import { JwtStrategy } from './strategy/jwt-strategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [
-    AuthService,
-    JwtStrategy,
-    {
-      provide: 'HASH_PROVIDER',
-      useClass: Bcrypt,
-    },
-  ],
+  providers: [AuthService, JwtStrategy, Bcrypt],
 })
 export class AuthModule {}
