@@ -1,9 +1,4 @@
-import {
-  Inject,
-  Injectable,
-  UnprocessableEntityException,
-} from '@nestjs/common';
-import { PROVIDERS } from '@config/providers';
+import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { Bcrypt } from '@providers/cryptography/implementations/bcrypt';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -14,8 +9,8 @@ import { User } from '@prisma/client';
 @Injectable()
 export class UsersService {
   constructor(
-    @Inject(PROVIDERS.HASH) private hash: Bcrypt,
-    private respository: UsersRepository,
+    private readonly hash: Bcrypt,
+    private readonly respository: UsersRepository,
   ) {}
 
   async create({ name, email, password }: CreateUserDto): Promise<UserEntity> {
