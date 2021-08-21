@@ -1,5 +1,10 @@
-export enum Providers {
-  UsersRepository = 'UsersRepository',
-  TransactionsRespository = 'TransactionsRespository',
-  Hash = 'HashProvider',
-}
+export const PROVIDERS = {
+  USER: {
+    REPOSITORY: 'UsersRepository',
+    ENTITY: 'UsersEntity',
+  },
+  TRANSACTIONS: {
+    REPOSITORY: 'TransactionsRepository',
+  },
+  HASH: 'HashProvider',
+};

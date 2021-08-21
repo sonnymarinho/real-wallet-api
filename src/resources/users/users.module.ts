@@ -1,25 +1,27 @@
 import { Module } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
-import { MongooseModule } from '@nestjs/mongoose';
-import { User, UserSchema } from './entities/user.entity';
 import { Bcrypt } from '@root/providers/cryptography/implementations/bcrypt';
-import { MongooseUsersRepository } from '@repositories/users/implementation/mongoose';
-import { Providers } from '@root/config/providers';
+import { PROVIDERS } from '@root/config/providers';
+import { MongooseUsersRepository } from '@root/repositories/implementations/mongoose/users';
+import { MongooseModule } from '@nestjs/mongoose';
+import {
+  MongooseUserEntity,
+  UserSchema,
+} from '@root/entities/users/implementations/mongoose-user-entity';
+import { MongooseRepositoryModule } from '@root/repositories/implementations/mongoose';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
-  ],
+  imports: [MongooseRepositoryModule],
   controllers: [UsersController],
   providers: [
     UsersService,
     {
-      provide: Providers.Hash,
+      provide: PROVIDERS.HASH,
       useClass: Bcrypt,
     },
     {
-      provide: Providers.UsersRepository,
+      provide: PROVIDERS.USER.REPOSITORY,
       useClass: MongooseUsersRepository,
     },
   ],

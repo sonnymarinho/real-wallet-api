@@ -4,22 +4,22 @@ import {
   NotImplementedException,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { AbstractUsersRepository } from '@repositories/users/abstract-users-repository';
-import { Providers } from '@root/config/providers';
-import { Bcrypt } from '@root/providers/cryptography/implementations/bcrypt';
+import { AbstractUsersRepository } from '@repositories/abstract/abstract-users-repository';
+import { PROVIDERS } from '@config/providers';
+import { IUser } from '@entities/users/user-interface';
+import { Bcrypt } from '@providers/cryptography/implementations/bcrypt';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @Inject(Providers.Hash) private hash: Bcrypt,
-    @Inject(Providers.UsersRepository)
+    @Inject(PROVIDERS.HASH) private hash: Bcrypt,
+    @Inject(PROVIDERS.USER.REPOSITORY)
     private respository: AbstractUsersRepository,
   ) {}
 
-  async create({ name, email, password }: CreateUserDto): Promise<User> {
+  async create({ name, email, password }: CreateUserDto): Promise<IUser> {
     const existentUser = await this.findByEmail(email);
 
     const emailAlreadyInUse = !!existentUser;
@@ -43,11 +43,11 @@ export class UsersService {
     throw new NotImplementedException('Method not implemented: findAll');
   }
 
-  findOne(id: number): User {
+  findOne(id: number): IUser {
     throw new NotImplementedException('Method not implemented: findOne');
   }
 
-  async findByEmail(email: string): Promise<User> {
+  async findByEmail(email: string): Promise<IUser> {
     const user = await this.respository.findByEmail(email);
     return user;
   }

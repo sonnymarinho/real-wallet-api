@@ -19,6 +19,7 @@
       "@root/*":["src/*"],
       "@app/*":["src/app/*"],
       "@config/*":["src/config/*"],
+      "@entities/*":["src/entities/*"],
       "@providers/*":["src/providers/*"],
       "@repositories/*":["src/repositories/*"],
       "@transactions/*":["src/transactions/*"],

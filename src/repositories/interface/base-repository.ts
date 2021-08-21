@@ -1,15 +1,11 @@
-type EntityWithId = {
-  id: any;
-};
-
-export interface IBaseRepository<T extends EntityWithId> {
+export interface IBaseRepository<T, id> {
   create(dto: any): Promise<T>;
 
   findAll(): Promise<T[]>;
 
-  findOne(id: T['id']): Promise<T>;
+  findOne(id: id): Promise<T>;
 
-  update(id: T['id'], dto: any): Promise<T>;
+  update(id: id, dto: any): Promise<T>;
 
-  remove(id: T['id']): Promise<void>;
+  remove(id: id): Promise<void>;
 }
