@@ -4,9 +4,8 @@ import { UpdateUserDto } from '@resources/users/dto/update-user.dto';
 
 import { AbstractUsersRepository } from '@repositories/abstract/abstract-users-repository';
 import { PrismaService } from '../prisma/prisma.service';
-import { UserEntity } from '@root/entities/users/user.entity';
+import { UserEntity } from '@root/resources/users/entities/user.entity';
 import { Prisma, User } from '@prisma/client';
-import { plainToClass } from 'class-transformer';
 
 @Injectable()
 export class UsersRepository extends AbstractUsersRepository {
@@ -14,16 +13,10 @@ export class UsersRepository extends AbstractUsersRepository {
     super();
   }
 
-  private toEntity(data) {
-    return data?.length
-      ? data.map((user) => plainToClass(UserEntity, user))
-      : plainToClass(UserEntity, data);
-  }
-
   async create(dto: CreateUserDto): Promise<UserEntity> {
     const data: Prisma.UserCreateInput = { ...dto };
 
-    const user = this.prisma.user.create({ data });
+    const user = await this.prisma.user.create({ data });
 
     return this.toEntity(user);
   }
@@ -31,7 +24,7 @@ export class UsersRepository extends AbstractUsersRepository {
   async findAll(): Promise<UserEntity[]> {
     const users = await this.prisma.user.findMany();
 
-    return this.toEntity(users);
+    return this.toEntityArray(users);
   }
 
   async findOne(id: User['id']): Promise<UserEntity> {

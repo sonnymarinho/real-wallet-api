@@ -9,6 +9,8 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
   SerializeOptions,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -37,6 +39,7 @@ export class UsersController {
   }
 
   @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id') id: User['id']) {
     return this.usersService.remove(id);
   }

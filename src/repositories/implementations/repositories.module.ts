@@ -1,11 +1,13 @@
 import { Global, Module } from '@nestjs/common';
 import { PrismaService } from '@root/repositories/prisma/prisma.service';
-import { UsersRepository } from './users';
+import { TransactionsRepository } from './transactions.repository';
+import { UsersRepository } from './users.repository';
 
+const repositories = [UsersRepository, TransactionsRepository];
 @Global()
 @Module({
   imports: [],
-  providers: [PrismaService, UsersRepository],
-  exports: [UsersRepository],
+  providers: [PrismaService, ...repositories],
+  exports: [...repositories],
 })
 export class RepositoriesModule {}

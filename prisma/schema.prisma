@@ -22,7 +22,7 @@ model Transaction {
   id          String  @id @default(uuid())
   value       Decimal
   title       String
-  description String
+  description String?
   userId      String
   user        User    @relation(fields: [userId], references: [id])
 }
