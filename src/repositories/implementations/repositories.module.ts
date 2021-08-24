@@ -1,9 +1,10 @@
 import { Global, Module } from '@nestjs/common';
-import { PrismaService } from '@root/repositories/prisma/prisma.service';
-import { TransactionsRepository } from './transactions.repository';
-import { UsersRepository } from './users.repository';
+import { PrismaService } from '@repositories/implementations/prisma/prisma.service';
+import { TransactionsRepository } from './prisma/transactions.repository';
+import { UsersRepository } from './prisma/users.repository';
 
 const repositories = [UsersRepository, TransactionsRepository];
+
 @Global()
 @Module({
   imports: [],
