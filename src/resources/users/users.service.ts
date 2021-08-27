@@ -2,15 +2,17 @@ import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { Bcrypt } from '@providers/cryptography/implementations/bcrypt';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UserEntity } from '@root/resources/users/entities/user.entity';
-import { User } from '@prisma/client';
-import { UsersRepository } from '@root/repositories/implementations/prisma/users.repository';
+import { UserEntity } from '@repositories/entities/user.entity';
+import { UsersRepository } from '@repositories/implementations/typeorm/users.repository';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class UsersService {
   constructor(
     private readonly hash: Bcrypt,
-    private readonly respository: UsersRepository,
+    @InjectRepository(UserEntity)
+    private readonly respository: Repository<UserEntity>,
   ) {}
 
   async create({ name, email, password }: CreateUserDto): Promise<UserEntity> {
@@ -24,32 +26,39 @@ export class UsersService {
 
     const hashedPassword = await this.hash.generateHash(password);
 
-    const user = await this.respository.create({
+    const data = new UserEntity({
       name,
       email,
       password: hashedPassword,
     });
 
+    console.log('user data: ', data);
+
+    const user = await this.respository.save(data);
+
     return user;
   }
 
   findAll(): Promise<UserEntity[]> {
-    return this.respository.findAll();
+    return this.respository.find();
   }
 
-  findOne(id: User['id']): Promise<UserEntity> {
+  findOne(id: UserEntity['id']): Promise<UserEntity> {
     return this.respository.findOne(id);
   }
 
   findByEmail(email: string): Promise<UserEntity> {
-    return this.respository.findByEmail(email);
+    return this.respository.findOne({ where: { email } });
   }
 
-  update(id: User['id'], updateUserDto: UpdateUserDto): Promise<UserEntity> {
-    return this.respository.update(id, updateUserDto);
+  update(
+    id: UserEntity['id'],
+    updateUserDto: UpdateUserDto,
+  ): Promise<UserEntity> {
+    return this.respository.save({ ...updateUserDto, id });
   }
 
-  async remove(id: User['id']): Promise<void> {
+  async remove(id: UserEntity['id']): Promise<void> {
     const existentUser = await this.findOne(id);
     const userDoesNotExists = !existentUser;
 
@@ -57,6 +66,6 @@ export class UsersService {
       throw new UnprocessableEntityException('User does not exists.');
     }
 
-    return this.respository.remove(id);
+    this.respository.delete(id);
   }
 }
