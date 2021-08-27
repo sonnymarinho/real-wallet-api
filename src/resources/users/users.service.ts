@@ -2,8 +2,8 @@ import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { Bcrypt } from '@providers/cryptography/implementations/bcrypt';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UserEntity } from '@repositories/entities/user.entity';
-import { UsersRepository } from '@repositories/implementations/typeorm/users.repository';
+import { UserEntity } from '@root/repositories/entities/users/user.entity';
+import { UsersRepository } from '@root/repositories/implementations/typeorm/users.repository';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 

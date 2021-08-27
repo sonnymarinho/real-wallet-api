@@ -1,7 +1,7 @@
 import { CreateUserDto } from '@root/resources/users/dto/create-user.dto';
 import { UpdateUserDto } from '@root/resources/users/dto/update-user.dto';
 import { IBaseRepository } from '../interface/base-repository';
-import { UserEntity } from '../entities/user.entity';
+import { UserEntity } from '../entities/users/user.entity';
 
 export abstract class AbstractUsersRepository
   implements IBaseRepository<UserEntity>

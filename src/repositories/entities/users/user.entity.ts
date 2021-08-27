@@ -1,6 +1,6 @@
-import { Exclude, Expose } from 'class-transformer';
-import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
+import { Exclude, Expose } from 'class-transformer';
 
 @Expose()
 @Entity({ name: 'users' })

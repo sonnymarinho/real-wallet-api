@@ -15,7 +15,7 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UserEntity } from '@root/repositories/entities/user.entity';
+import { UserEntity } from '@root/repositories/entities/users/user.entity';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @SerializeOptions({ excludePrefixes: ['_'] })

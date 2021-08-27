@@ -1,5 +1,5 @@
 import { IsEmail, IsNotEmpty, IsString, MaxLength } from 'class-validator';
-import { UserEntity } from '@repositories/entities/user.entity';
+import { UserEntity } from '@root/repositories/entities/users/user.entity';
 
 export class CreateUserDto implements UserEntity {
   @IsNotEmpty()

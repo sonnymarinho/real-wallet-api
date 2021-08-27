@@ -3,7 +3,7 @@ import { CreateUserDto } from '@resources/users/dto/create-user.dto';
 import { UpdateUserDto } from '@resources/users/dto/update-user.dto';
 
 import { AbstractUsersRepository } from '@repositories/abstract/abstract-users-repository';
-import { UserEntity } from '@repositories/entities/user.entity';
+import { UserEntity } from '@root/repositories/entities/users/user.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
