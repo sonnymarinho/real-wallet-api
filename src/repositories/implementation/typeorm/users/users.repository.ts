@@ -18,6 +18,8 @@ export class UsersRepository {
   async create(dto: CreateUserDto): Promise<User> {
     const user = await this.typeorm.create(dto);
 
+    await this.typeorm.save(user);
+
     return plainToClass(User, user);
   }
 

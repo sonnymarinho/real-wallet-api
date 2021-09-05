@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmConnectionModule } from '../repositories/implementation/typeorm/typeorm-connection';
+import { ProvidersModule } from '../providers/providers.module';
+import { RepositoriesModule } from '../repositories/repositories.module';
 import { UsersModule } from '../resources/users/users.module';
 
 @Module({
-  imports: [UsersModule, TypeOrmConnectionModule],
+  imports: [UsersModule, RepositoriesModule],
 })
 export class AppModule {}

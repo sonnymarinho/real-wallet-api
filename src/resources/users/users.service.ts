@@ -7,21 +7,34 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { UsersRepository } from '../../repositories/implementation/typeorm/users/users.repository';
+import { PROVIDER } from '../../config/providers-name';
+import { AbstractHashProvider } from '../../providers/criptography/abstract-hash.provider';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @Inject('UsersRepository') private readonly repository: UsersRepository,
+    @Inject(PROVIDER.USER.REPOSITORY)
+    private readonly repository: UsersRepository,
+    @Inject(PROVIDER.HASH) private readonly hash: AbstractHashProvider,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    const existentUser = await this.repository.findByEmail(createUserDto.email);
+    const { password, email } = createUserDto;
+
+    const existentUser = await this.repository.findByEmail(email);
 
     if (existentUser) {
       throw new UnprocessableEntityException('Email is already in use');
     }
 
-    return this.repository.create(createUserDto);
+    const hashedPassword = await this.hash.generateHash(password);
+
+    const data: CreateUserDto = {
+      ...createUserDto,
+      password: hashedPassword,
+    };
+
+    return this.repository.create(data);
   }
 
   update(id: User['id'], updateUserDto: UpdateUserDto) {
