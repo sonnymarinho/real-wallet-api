@@ -37,6 +37,10 @@ describe('UsersRepository', () => {
     repository = module.get<UsersRepository>(UsersRepository);
   });
 
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('create', () => {
     it('should be able to create a new user record and return that', async () => {
       const dto: CreateUserDto = {
@@ -50,10 +54,36 @@ describe('UsersRepository', () => {
         mockUsersRepository,
         'create',
       );
+      const repositorySaveFunction = jest.spyOn(mockUsersRepository, 'save');
 
       expect(repositoryCreateFunction).toHaveBeenCalledWith(dto);
+      expect(repositorySaveFunction).toBeCalled();
       expect(user).toEqual({ id: expect.any(String), ...dto });
       expect(user instanceof User).toBeTruthy();
+    });
+
+    it('should be able to create a unique id for each user', async () => {
+      const dto: CreateUserDto = {
+        name: 'Jhon',
+        password: '123',
+        email: 'name@domain.com',
+      };
+
+      const user1 = await repository.create(dto);
+      const user2 = await repository.create(dto);
+
+      const repositoryCreateFunction = jest.spyOn(
+        mockUsersRepository,
+        'create',
+      );
+      const repositorySaveFunction = jest.spyOn(mockUsersRepository, 'save');
+
+      expect(repositoryCreateFunction).toHaveBeenCalledWith(dto);
+      expect(repositoryCreateFunction).toHaveBeenCalledTimes(2);
+
+      expect(repositorySaveFunction).toHaveBeenCalledTimes(2);
+
+      expect(user1.id !== user2.id).toBeTruthy();
     });
   });
 
