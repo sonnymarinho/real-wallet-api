@@ -20,6 +20,6 @@ export class User {
   email: string;
 
   @Column('text')
-  @Exclude({ toClassOnly: true })
+  @Exclude({ toPlainOnly: true })
   password: string;
 }

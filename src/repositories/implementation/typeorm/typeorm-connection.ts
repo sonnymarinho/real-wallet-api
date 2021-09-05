@@ -1,6 +1,6 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { EnviromentVariables, Environment } from '../config/environment';
+import { EnviromentVariables, Environment } from '../../../config/environment';
 import { getConnectionOptions } from 'typeorm';
 
 export const TypeOrmConnectionModule = TypeOrmModule.forRootAsync({

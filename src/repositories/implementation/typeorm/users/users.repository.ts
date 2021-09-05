@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from '../resources/users/dto/create-user.dto';
-import { UpdateUserDto } from '../resources/users/dto/update-user.dto';
 
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../resources/users/entities/user.entity';
+
 import { plainToClass } from 'class-transformer';
+import { User } from '../../../../resources/users/entities/user.entity';
+import { CreateUserDto } from '../../../../resources/users/dto/create-user.dto';
+import { UpdateUserDto } from '../../../../resources/users/dto/update-user.dto';
 
 @Injectable()
 export class UsersRepository {
