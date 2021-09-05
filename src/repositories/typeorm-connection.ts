@@ -1,9 +1,9 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { EnviromentVariables, Environment } from '@root/config/enviroment';
+import { EnviromentVariables, Environment } from '../config/environment';
 import { getConnectionOptions } from 'typeorm';
 
-export const TypeOrmModuleConnection = TypeOrmModule.forRootAsync({
+export const TypeOrmConnectionModule = TypeOrmModule.forRootAsync({
   imports: [ConfigModule],
   inject: [ConfigService],
   useFactory: async (configService: ConfigService) => {
