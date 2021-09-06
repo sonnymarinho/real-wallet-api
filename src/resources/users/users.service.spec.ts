@@ -100,7 +100,7 @@ describe('UsersService', () => {
       expect(generateHashFunction).toBeCalledWith(data.password);
     });
 
-    it('not sould be able to crea a user with an existing email', async () => {
+    it('should not be able to create a user with an existing email', async () => {
       const dto: CreateUserDto = {
         name: 'Jhon Wick',
         email: 'jhon@domain.com',

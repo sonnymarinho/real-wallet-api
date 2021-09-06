@@ -9,11 +9,12 @@ export const TypeOrmConnectionModule = TypeOrmModule.forRootAsync({
   useFactory: async (configService: ConfigService) => {
     const environment = configService.get<string>(EnviromentVariables.NODE_ENV);
 
-    const connectionName =
-      environment === Environment.Test ? 'test' : 'default';
+    const isTesting = environment === Environment.Test;
+    const connectionName = isTesting ? 'test' : 'default';
 
     return Object.assign(await getConnectionOptions(connectionName), {
       autoLoadEntities: true,
+      keepConnectionAlive: true,
     });
   },
 });
