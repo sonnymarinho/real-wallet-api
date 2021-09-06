@@ -11,7 +11,7 @@ describe('UserController (e2e)', () => {
   let testUtils: TestUtils;
 
   const clearAllEntities = async () => {
-    await testUtils.cleanAll([User]);
+    await testUtils.cleanAllEntities([User]);
   };
 
   beforeAll(async () => {

@@ -64,14 +64,14 @@ export class TestUtils {
    */
   async reloadFixtures() {
     const entities = await this.getEntities();
-    await this.cleanAll(entities);
+    await this.cleanAllEntities(entities);
     await this.loadAll(entities);
   }
 
   /**
    * Cleans all the entities
    */
-  async cleanAll(entities) {
+  async cleanAllEntities(entities) {
     try {
       for (const entity of entities) {
         const repository = await getRepository(entity, this.environment);

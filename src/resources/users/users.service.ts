@@ -44,4 +44,8 @@ export class UsersService {
   remove(id: User['id']) {
     return this.repository.remove(id);
   }
+
+  async findByEmail(email: string): Promise<User> {
+    return await this.repository.findByEmail(email);
+  }
 }
