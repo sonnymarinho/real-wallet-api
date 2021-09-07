@@ -30,7 +30,7 @@ describe('UsersService', () => {
       providers: [
         UsersService,
         {
-          provide: PROVIDER.USER.REPOSITORY,
+          provide: PROVIDER.USERS.REPOSITORY,
           useValue: mockUsersRepository,
         },
         {

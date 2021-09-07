@@ -6,7 +6,8 @@
     "port": 5432,
     "username": "postgres",
     "password": "docker",
-    "database": "real-wallet"
+    "database": "real-wallet",
+    "synchronize": true
   },
   {
     "name": "test",

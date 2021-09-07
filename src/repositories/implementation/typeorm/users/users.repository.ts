@@ -29,7 +29,7 @@ export class UsersRepository {
     return users;
   }
 
-  async findOne(id: User['id']): Promise<User> {
+  async findById(id: User['id']): Promise<User> {
     const user = await this.typeorm.findOne({
       where: { id },
     });

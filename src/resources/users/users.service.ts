@@ -13,7 +13,7 @@ import { AbstractHashProvider } from '../../providers/criptography/abstract-hash
 @Injectable()
 export class UsersService {
   constructor(
-    @Inject(PROVIDER.USER.REPOSITORY)
+    @Inject(PROVIDER.USERS.REPOSITORY)
     private readonly repository: UsersRepository,
     @Inject(PROVIDER.HASH) private readonly hash: AbstractHashProvider,
   ) {}
@@ -43,6 +43,10 @@ export class UsersService {
 
   remove(id: User['id']) {
     return this.repository.remove(id);
+  }
+
+  async findById(id: string): Promise<User> {
+    return await this.repository.findById(id);
   }
 
   async findByEmail(email: string): Promise<User> {

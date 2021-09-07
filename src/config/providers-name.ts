@@ -1,6 +1,9 @@
 export const PROVIDER = {
-  USER: {
+  USERS: {
     REPOSITORY: 'UsersRepository',
+  },
+  TRANSACTIONS: {
+    REPOSITORY: 'TransactionsRepository',
   },
   HASH: 'HashProvider',
 };

@@ -5,7 +5,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { UsersModule } from '../users/users.module';
 import { JWT } from '../../config/jwt';
 import { JwtStrategy } from './strategy/jwt.strategy';
-import { ProvidersModule } from 'src/providers/providers.module';
+import { ProvidersModule } from '../../providers/providers.module';
 
 const JwtAuthModule = JwtModule.register({
   secret: JWT.SECRET,

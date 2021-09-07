@@ -123,7 +123,7 @@ describe('UsersRepository', () => {
         .spyOn(mockUsersRepository, 'findOne')
         .mockImplementation(() => Promise.resolve(user));
 
-      const findedUser = await repository.findOne(user.id);
+      const findedUser = await repository.findById(user.id);
 
       expect(findFunction).toHaveBeenCalled();
       expect(findedUser).toEqual(user);
