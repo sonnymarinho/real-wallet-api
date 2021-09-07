@@ -1,18 +1,13 @@
-import { IsEmail, IsNotEmpty, IsString, MaxLength } from 'class-validator';
-import { UserEntity } from '@root/repositories/entities/users/user.entity';
+import { IsEmail, IsString } from 'class-validator';
+import { User } from '../entities/user.entity';
 
-export class CreateUserDto implements UserEntity {
-  @IsNotEmpty()
+export class CreateUserDto implements Partial<User> {
   @IsString()
-  @MaxLength(100)
   name: string;
 
-  @IsEmail()
-  @IsNotEmpty()
-  @MaxLength(100)
-  email: string;
-
-  @IsNotEmpty()
-  @MaxLength(64)
+  @IsString()
   password: string;
+
+  @IsEmail()
+  email: string;
 }

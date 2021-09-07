@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from '@app/app.module';
-import { validationPipe } from './middlewares/validation.pipe';
+import { AppModule } from './app/app.module';
+import { validationPipe } from './pipes/validation.pipe';
 
 const PORT = 3001;
 declare const module: any;

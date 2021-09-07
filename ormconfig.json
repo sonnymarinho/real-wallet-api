@@ -6,15 +6,15 @@
     "port": 5432,
     "username": "postgres",
     "password": "docker",
-    "database": "real-wallet"
+    "database": "real-wallet",
+    "synchronize": true
   },
   {
     "name": "test",
     "database": "test/real-wallet.test.db",
     "type": "sqlite",
-    "logging": true,
     "synchronize": true,
-    "entities": ["dist/src/repositories/entities/**/*.entity.{js,ts}"],
+    "entities": ["./src/resources/**/entities/*.entity.{js,ts}"],
     "subscribers": ["subscriber/*.js"],
     "entitySchemas": ["schema/*.json"],
     "migrations": ["migration/*.js"]

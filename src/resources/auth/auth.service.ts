@@ -5,26 +5,28 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserEntity } from '@root/repositories/entities/users/user.entity';
-import { Bcrypt } from '@providers/cryptography/implementations/bcrypt';
+import { PROVIDER } from '../../config/providers-name';
+import { IHashProvider } from '../../providers/criptography/abstract-hash.provider';
+import { User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
-import { AuthUserDto } from './dto/auth-user.dto';
-import { PayloadObject } from './type/palyload-object';
+import { UserAuthDTO } from './dto/user-auth.dto';
+import { PayloadObject } from './type/payload-object';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-    private hash: Bcrypt,
+    @Inject(PROVIDER.HASH)
+    private hash: IHashProvider,
   ) {}
 
-  private generateToken(user: UserEntity): string {
+  private generateToken(user: User): string {
     const payload: PayloadObject = { email: user.email, id: user.id };
     return this.jwtService.sign(payload);
   }
 
-  async auth(authUserDto: AuthUserDto) {
+  async auth(authUserDto: UserAuthDTO) {
     const { email, password } = authUserDto;
 
     const user = await this.usersService.findByEmail(email);

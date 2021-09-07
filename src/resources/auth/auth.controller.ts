@@ -7,7 +7,7 @@ import {
   SerializeOptions,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthUserDto } from './dto/auth-user.dto';
+import { UserAuthDTO } from './dto/user-auth.dto';
 
 @Controller('auth')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -16,7 +16,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('/login')
-  auth(@Body() authUserDto: AuthUserDto) {
+  auth(@Body() authUserDto: UserAuthDTO) {
     return this.authService.auth(authUserDto);
   }
 }
