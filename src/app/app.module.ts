@@ -8,9 +8,9 @@ import { UsersModule } from './resources/users/users.module';
 @Module({
   imports: [
     UsersModule,
+    TransactionsModule,
     AuthModule,
     ProvidersModule,
-    TransactionsModule,
     GraphQLModule.forRoot({
       include: [UsersModule, TransactionsModule, AuthModule],
       autoSchemaFile: true,

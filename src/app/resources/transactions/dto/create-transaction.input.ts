@@ -1,6 +1,13 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsNumber, IsOptional, IsString, MaxLength } from 'class-validator';
-import { User } from '../../users/entities/user.entity';
+import {
+  IsBoolean,
+  IsEnum,
+  IsNumber,
+  IsOptional,
+  IsString,
+  MaxLength,
+} from 'class-validator';
+import { TransactionType } from '../entities/transaction.entity';
 
 @InputType()
 export class CreateTransactionInput {
@@ -18,4 +25,20 @@ export class CreateTransactionInput {
   @MaxLength(500)
   @Field()
   description?: string;
+
+  @Field()
+  @IsEnum(TransactionType, {
+    message: "The transaction type must be or 'income' or 'expense'.",
+  })
+  type: TransactionType;
+
+  @Field({ defaultValue: false, nullable: true })
+  @IsBoolean()
+  @IsOptional()
+  isPeriodically: false;
+
+  @Field({ defaultValue: false, nullable: true })
+  @IsBoolean()
+  @IsOptional()
+  isConfirmed: false;
 }

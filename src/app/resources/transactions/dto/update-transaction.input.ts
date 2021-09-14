@@ -1,9 +1,10 @@
-import { Field, InputType } from '@nestjs/graphql';
-import { PartialType } from '@nestjs/mapped-types';
 import { CreateTransactionInput } from './create-transaction.input';
+import { InputType, Field, PartialType } from '@nestjs/graphql';
 
 @InputType()
-export class UpdateTransactionDto extends PartialType(CreateTransactionInput) {
-  @Field({ description: 'Transaction id based on uuid' })
+export class UpdateTransactionInput extends PartialType(
+  CreateTransactionInput,
+) {
+  @Field(() => String)
   id: string;
 }

@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateTransactionInput } from 'src/app/resources/transactions/dto/create-transaction.input';
-import { UpdateTransactionDto } from 'src/app/resources/transactions/dto/update-transaction.input';
+import { UpdateTransactionInput } from 'src/app/resources/transactions/dto/update-transaction.input';
 import { Transaction } from 'src/app/resources/transactions/entities/transaction.entity';
 import { User } from 'src/app/resources/users/entities/user.entity';
 import { Repository } from 'typeorm';
 
-type createTransaction = CreateTransactionInput & { user: User };
+type CreateTransaction = CreateTransactionInput & { user: User };
 
 @Injectable()
 export class TransactionsRepository {
@@ -15,7 +15,7 @@ export class TransactionsRepository {
     private readonly typeorm: Repository<Transaction>,
   ) {}
 
-  async create(dto: createTransaction): Promise<Transaction> {
+  async create(dto: CreateTransaction): Promise<Transaction> {
     const transaction = await this.typeorm.create(dto);
 
     await this.typeorm.save(transaction);
@@ -30,7 +30,7 @@ export class TransactionsRepository {
   }
   async update(
     id: Transaction['id'],
-    dto: UpdateTransactionDto,
+    dto: UpdateTransactionInput,
   ): Promise<Transaction> {
     return this.typeorm.save({ ...dto, id });
   }

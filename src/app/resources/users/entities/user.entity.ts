@@ -1,4 +1,11 @@
-import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 import { Exclude, Expose } from 'class-transformer';
 import { Field, ObjectType } from '@nestjs/graphql';
@@ -33,4 +40,10 @@ export class User {
   @Field(type => [Transaction])
   @OneToMany(() => Transaction, transaction => transaction.user)
   transactions: Transaction[];
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 }
