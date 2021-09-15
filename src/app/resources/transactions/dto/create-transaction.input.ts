@@ -1,6 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 import {
   IsBoolean,
+  IsDate,
   IsEnum,
   IsNumber,
   IsOptional,
@@ -36,6 +37,11 @@ export class CreateTransactionInput {
   @IsBoolean()
   @IsOptional()
   isPeriodically: false;
+
+  @IsDate()
+  @IsOptional()
+  @Field(type => Date, { nullable: true })
+  date = new Date();
 
   @Field({ defaultValue: false, nullable: true })
   @IsBoolean()

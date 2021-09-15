@@ -55,6 +55,10 @@ export class Transaction {
   @Expose({ name: 'is_confirmed' })
   isConfirmed: false;
 
+  @Field()
+  @Column()
+  date: Date;
+
   @Exclude({ toPlainOnly: true })
   @ManyToOne(() => User, user => user.transactions)
   user: User;

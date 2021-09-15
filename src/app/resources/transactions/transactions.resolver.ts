@@ -22,14 +22,18 @@ export class TransactionsResolver {
     return this.transactionsService.create(createTransactionInput, user);
   }
 
-  @Query(() => [Transaction], { name: 'transactions' })
-  findAll() {
-    return this.transactionsService.findAll();
-  }
-
   @Query(() => [Transaction], { name: 'findAllMyTransactions' })
   findAllMyTransactions(@CurrentUser() user: User) {
     return this.transactionsService.findAllByUser(user);
+  }
+
+  @Query(() => [Transaction], { name: 'findTransactionsInMonth' })
+  findTransactionsInMonth(
+    @Args('month', { type: () => Number }) month: number,
+    @Args('year', { type: () => Number }) year: number,
+    @CurrentUser() user: User,
+  ) {
+    return this.transactionsService.findTransactionsInMonth(user, year, month);
   }
 
   @Query(() => Transaction, { name: 'transactions' })

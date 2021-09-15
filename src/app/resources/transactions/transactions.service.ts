@@ -21,8 +21,8 @@ export class TransactionsService {
     return this.repository.findAllByUser(user);
   }
 
-  findAll() {
-    return `This action returns all transactions`;
+  findTransactionsInMonth(user: User, year: number, month: number) {
+    return this.repository.findTransactionsInMonth(user, year, month);
   }
 
   findOne(id: Transaction['id']) {
