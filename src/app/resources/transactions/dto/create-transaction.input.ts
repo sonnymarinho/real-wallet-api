@@ -8,7 +8,7 @@ import {
   IsString,
   MaxLength,
 } from 'class-validator';
-import { TransactionType } from '../entities/transaction.entity';
+import { TransactionType } from '../types/transaction';
 
 @InputType()
 export class CreateTransactionInput {
@@ -36,7 +36,7 @@ export class CreateTransactionInput {
   @Field({ defaultValue: false, nullable: true })
   @IsBoolean()
   @IsOptional()
-  isPeriodically: false;
+  isRecurrent: false;
 
   @IsDate()
   @IsOptional()

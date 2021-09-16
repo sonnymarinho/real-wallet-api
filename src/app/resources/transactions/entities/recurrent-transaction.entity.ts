@@ -5,17 +5,18 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 import { User } from '../../users/entities/user.entity';
 import { ITransaction, TransactionType } from '../types/transaction';
-import { RecurrentTransaction } from './recurrent-transaction.entity';
+import { Transaction } from './transaction.entity';
 
 @ObjectType()
-@Entity('transactions')
-export class Transaction implements ITransaction {
+@Entity('recurrent_transactions')
+export class RecurrentTransaction implements ITransaction {
   constructor(props: Partial<Transaction> = {}) {
     const id = uuidv4();
     Object.assign(this, { ...props, id });
@@ -43,16 +44,6 @@ export class Transaction implements ITransaction {
   type: TransactionType;
 
   @Field()
-  @Column({ default: false })
-  @Expose({ name: 'is_recurrent' })
-  isRecurrent: boolean;
-
-  @Field()
-  @Column({ default: false })
-  @Expose({ name: 'is_confirmed' })
-  isConfirmed: boolean;
-
-  @Field()
   @Column({ default: new Date() })
   date: Date;
 
@@ -60,16 +51,13 @@ export class Transaction implements ITransaction {
   @ManyToOne(() => User, user => user.transactions)
   user: User;
 
-  @Exclude({ toPlainOnly: true })
-  @ManyToOne(
-    () => RecurrentTransaction,
-    recurrentTransaction => recurrentTransaction.transactions,
-  )
-  recurrentTransaction: RecurrentTransaction;
-
   @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @Field(type => [Transaction])
+  @OneToMany(() => Transaction, transaction => transaction.recurrentTransaction)
+  transactions: Transaction[];
 }

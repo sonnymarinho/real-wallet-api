@@ -2,37 +2,37 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateTransactionInput } from 'src/app/resources/transactions/dto/create-transaction.input';
 import { UpdateTransactionInput } from 'src/app/resources/transactions/dto/update-transaction.input';
-import { Transaction } from 'src/app/resources/transactions/entities/transaction.entity';
 import { User } from 'src/app/resources/users/entities/user.entity';
 import { Repository, Between } from 'typeorm';
 import { startOfMonth, endOfMonth } from 'date-fns';
 import { RecurrentTransaction } from 'src/app/resources/transactions/entities/recurrent-transaction.entity';
 
-type CreateTransaction = CreateTransactionInput & {
+type CreateRecurrentRecurrentTransaction = CreateTransactionInput & {
   user: User;
-  recurrentTransaction?: RecurrentTransaction;
 };
 @Injectable()
-export class TransactionsRepository {
+export class RecurrentTransactionsRepository {
   constructor(
-    @InjectRepository(Transaction)
-    private readonly typeorm: Repository<Transaction>,
+    @InjectRepository(RecurrentTransaction)
+    private readonly typeorm: Repository<RecurrentTransaction>,
   ) {}
 
-  async create(dto: CreateTransaction): Promise<Transaction> {
+  async create(
+    dto: CreateRecurrentRecurrentTransaction,
+  ): Promise<RecurrentTransaction> {
     const transaction = await this.typeorm.create(dto);
-
-    console.log('transaction data: ', dto);
 
     await this.typeorm.save(transaction);
 
     return transaction;
   }
-  async findAllByUser(user: Transaction['user']): Promise<Transaction[]> {
+  async findAllByUser(
+    user: RecurrentTransaction['user'],
+  ): Promise<RecurrentTransaction[]> {
     return this.typeorm.find({ where: { user } });
   }
 
-  findTransactionsInMonth({ id }: User, year: number, month: number) {
+  findRecurrentTransactionsInMonth({ id }: User, year: number, month: number) {
     const startRange = startOfMonth(new Date(year, month - 1)).toISOString();
     const endRange = endOfMonth(new Date(year, month - 1)).toISOString();
 
@@ -44,18 +44,18 @@ export class TransactionsRepository {
     });
   }
 
-  async findOne(id: Transaction['id']): Promise<Transaction> {
+  async findOne(id: RecurrentTransaction['id']): Promise<RecurrentTransaction> {
     return this.typeorm.findOne({ where: { id } });
   }
 
   async update(
-    id: Transaction['id'],
+    id: RecurrentTransaction['id'],
     dto: UpdateTransactionInput,
-  ): Promise<Transaction> {
+  ): Promise<RecurrentTransaction> {
     return this.typeorm.save({ ...dto, id });
   }
 
-  async remove(id: Transaction['id']): Promise<void> {
+  async remove(id: RecurrentTransaction['id']): Promise<void> {
     await this.typeorm.delete(id);
   }
 }

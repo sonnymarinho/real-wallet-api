@@ -5,5 +5,8 @@ export const PROVIDER = {
   TRANSACTIONS: {
     REPOSITORY: 'TransactionsRepository',
   },
+  RECURRENT_TRANSACTIONS: {
+    REPOSITORY: 'RecurrentTransactionsRepository',
+  },
   HASH: 'HashProvider',
 };
