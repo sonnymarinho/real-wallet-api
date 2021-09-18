@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateTransactionInput } from 'src/app/resources/transactions/dto/create-transaction.input';
 import { UpdateTransactionInput } from 'src/app/resources/transactions/dto/update-transaction.input';
 import { User } from 'src/app/resources/users/entities/user.entity';
-import { Repository, Between, MoreThan, LessThanOrEqual } from 'typeorm';
+import { Repository, Between, LessThanOrEqual } from 'typeorm';
 import { startOfMonth, endOfMonth } from 'date-fns';
 import { RecurrentTransaction } from 'src/app/resources/transactions/entities/recurrent-transaction.entity';
 
@@ -26,6 +26,7 @@ export class RecurrentTransactionsRepository {
 
     return transaction;
   }
+
   async findAllByUser(
     user: RecurrentTransaction['user'],
   ): Promise<RecurrentTransaction[]> {

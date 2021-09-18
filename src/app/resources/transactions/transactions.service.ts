@@ -9,7 +9,8 @@ import { RecurrentTransactionsRepository } from 'src/app/repositories/implementa
 import { TransactionsHelper } from './transactions.helper';
 import { RecurrentTransaction } from './entities/recurrent-transaction.entity';
 import { CreateTransactionEntity } from './dto/create-transaction-entity';
-import { deserialize, plainToClass } from 'class-transformer';
+import { plainToClass } from 'class-transformer';
+import { addMonths } from 'date-fns';
 
 @Injectable()
 export class TransactionsService extends TransactionsHelper {
@@ -23,20 +24,37 @@ export class TransactionsService extends TransactionsHelper {
   }
 
   async create(dto: CreateTransactionInput, user: User): Promise<Transaction> {
-    const { isRecurrent } = dto;
+    const { isRecurrent, recurrenceTimes } = dto;
 
     const data = { ...dto, user };
 
-    const recurrentTransaction = isRecurrent
-      ? await this.recurrentTransactionsRepository.create(data)
-      : undefined;
+    if (!recurrenceTimes) {
+      const recurrentTransaction = isRecurrent
+        ? await this.recurrentTransactionsRepository.create(data)
+        : undefined;
 
-    const transaction = await this.transactionRepository.create({
-      ...data,
-      recurrentTransaction,
-    });
+      const transaction = await this.transactionRepository.create({
+        ...data,
+        recurrentTransaction,
+      });
 
-    return transaction;
+      return transaction;
+    }
+
+    if (recurrenceTimes) {
+      const createdTransactions = await Promise.all(
+        [...new Array(recurrenceTimes)].map((value, index) => {
+          const { date } = data;
+          const newValidMonth = addMonths(date, index);
+
+          const ajustedData = { ...data, date: newValidMonth };
+
+          return this.transactionRepository.create(ajustedData);
+        }),
+      );
+
+      return createdTransactions[0];
+    }
   }
 
   findAllByUser(user: Transaction['user']): Promise<Transaction[]> {

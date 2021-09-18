@@ -44,6 +44,12 @@ export class CreateTransactionInput {
   @Expose()
   isRecurrent?: boolean;
 
+  @Field({ nullable: true })
+  @IsNumber()
+  @IsOptional()
+  @Expose()
+  recurrenceTimes?: number;
+
   @IsDate()
   @IsOptional()
   @Field(type => Date, { nullable: true })
