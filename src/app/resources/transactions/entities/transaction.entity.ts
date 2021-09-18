@@ -4,6 +4,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   PrimaryColumn,
   UpdateDateColumn,
@@ -34,20 +36,20 @@ export class Transaction implements ITransaction {
   @Column()
   title: string;
 
-  @Field()
-  @Column()
+  @Field({ nullable: true })
+  @Column({ nullable: true })
   description?: string;
 
   @Field()
   @Column()
   type: TransactionType;
 
-  @Field()
+  @Field({ defaultValue: false })
   @Column({ default: false })
   @Expose({ name: 'is_recurrent' })
   isRecurrent: boolean;
 
-  @Field()
+  @Field({ defaultValue: false })
   @Column({ default: false })
   @Expose({ name: 'is_confirmed' })
   isConfirmed: boolean;
@@ -60,7 +62,7 @@ export class Transaction implements ITransaction {
   @ManyToOne(() => User, user => user.transactions)
   user: User;
 
-  @Exclude({ toPlainOnly: true })
+  @Field(type => RecurrentTransaction)
   @ManyToOne(
     () => RecurrentTransaction,
     recurrentTransaction => recurrentTransaction.transactions,

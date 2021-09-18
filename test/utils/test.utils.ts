@@ -20,8 +20,6 @@ export class TestUtils {
    * Creates an instance of TestUtils
    */
   constructor() {
-    console.log('current env test.utils: ', process.env.NODE_ENV);
-
     if (process.env.NODE_ENV !== 'test') {
       throw new Error('ERROR-TEST-UTILS-ONLY-FOR-TESTS');
     }
@@ -53,7 +51,7 @@ export class TestUtils {
    */
   async getEntities() {
     const entities = [];
-    (await (await this.testConnection).entityMetadatas).forEach((x) =>
+    (await (await this.testConnection).entityMetadatas).forEach(x =>
       entities.push({ name: x.name, tableName: x.tableName }),
     );
     return entities;

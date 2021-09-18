@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { TransactionsService } from './transactions.service';
 import { Transaction } from './entities/transaction.entity';
 import { CreateTransactionInput } from './dto/create-transaction.input';

@@ -5,6 +5,9 @@ export const PROVIDER = {
   TRANSACTIONS: {
     REPOSITORY: 'TransactionsRepository',
   },
+  CATEGORIES: {
+    REPOSITORY: 'CategoriesRepository',
+  },
   RECURRENT_TRANSACTIONS: {
     REPOSITORY: 'RecurrentTransactionsRepository',
   },

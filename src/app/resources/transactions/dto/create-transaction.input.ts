@@ -1,4 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
+import { Expose } from 'class-transformer';
 import {
   IsBoolean,
   IsDate,
@@ -14,37 +15,44 @@ import { TransactionType } from '../types/transaction';
 export class CreateTransactionInput {
   @IsNumber()
   @Field()
+  @Expose()
   value: number;
 
   @IsString()
   @MaxLength(100)
   @Field()
+  @Expose()
   title: string;
 
   @IsString()
   @IsOptional()
   @MaxLength(500)
-  @Field()
+  @Field({ nullable: true })
+  @Expose()
   description?: string;
 
   @Field()
   @IsEnum(TransactionType, {
     message: "The transaction type must be or 'income' or 'expense'.",
   })
+  @Expose()
   type: TransactionType;
 
   @Field({ defaultValue: false, nullable: true })
   @IsBoolean()
   @IsOptional()
-  isRecurrent: false;
+  @Expose()
+  isRecurrent?: boolean;
 
   @IsDate()
   @IsOptional()
   @Field(type => Date, { nullable: true })
+  @Expose()
   date = new Date();
 
   @Field({ defaultValue: false, nullable: true })
   @IsBoolean()
   @IsOptional()
-  isConfirmed: false;
+  @Expose()
+  isConfirmed?: boolean;
 }

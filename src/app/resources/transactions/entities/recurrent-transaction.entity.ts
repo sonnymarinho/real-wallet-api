@@ -35,8 +35,8 @@ export class RecurrentTransaction implements ITransaction {
   @Column()
   title: string;
 
-  @Field()
-  @Column()
+  @Field({ nullable: true })
+  @Column({ nullable: true })
   description?: string;
 
   @Field()

@@ -16,6 +16,6 @@ async function bootstrap() {
     module.hot.dispose(() => app.close());
   }
 
-  console.log(`Starting listening at port ${3001}🚀`);
+  console.info(`Starting listening at port ${3001}🚀`);
 }
 bootstrap();
