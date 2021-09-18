@@ -80,17 +80,21 @@ export class TransactionsService extends TransactionsHelper {
       this.filterRecurrentTransactionsNotCreatedYet(
         recurrentTransactions,
         transactions,
-      ).map(({ date, ...data }) => ({
-        ...data,
-        date: new Date(date.setMonth(month - 1)),
-      }));
+      );
+
+    const pendingTransactionsWithCurrentMonthDate =
+      transactionsNotExistingOnThisMonth.map(({ date, ...data }) => {
+        const currentMonthDate = new Date(date.setMonth(month - 1));
+
+        return { ...data, date: currentMonthDate };
+      });
 
     const thereIsTransactionsPending =
-      transactionsNotExistingOnThisMonth.length;
+      pendingTransactionsWithCurrentMonthDate.length;
 
     const recurrentToTransactions = thereIsTransactionsPending
       ? await this.createAllRecurrentTransactions(
-          transactionsNotExistingOnThisMonth,
+          pendingTransactionsWithCurrentMonthDate,
           user,
         )
       : [];
