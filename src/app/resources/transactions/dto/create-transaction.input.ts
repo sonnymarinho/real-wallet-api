@@ -42,13 +42,13 @@ export class CreateTransactionInput {
   @IsBoolean()
   @IsOptional()
   @Expose()
-  isRecurrent?: boolean;
+  isPermanent?: boolean;
 
   @Field({ nullable: true })
   @IsNumber()
   @IsOptional()
   @Expose()
-  recurrenceTimes?: number;
+  installments?: number;
 
   @IsDate()
   @IsOptional()

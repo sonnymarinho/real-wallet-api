@@ -51,6 +51,14 @@ export class RecurrentTransaction implements ITransaction {
   @ManyToOne(() => User, user => user.transactions)
   user: User;
 
+  @Field({ defaultValue: false })
+  @Column({ default: false })
+  isPermanent?: boolean;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  installments?: number;
+
   @CreateDateColumn()
   created_at: Date;
 

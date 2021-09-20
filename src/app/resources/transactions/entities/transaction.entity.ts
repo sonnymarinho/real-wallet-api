@@ -46,11 +46,6 @@ export class Transaction implements ITransaction {
 
   @Field({ defaultValue: false })
   @Column({ default: false })
-  @Expose({ name: 'is_recurrent' })
-  isRecurrent: boolean;
-
-  @Field({ defaultValue: false })
-  @Column({ default: false })
   @Expose({ name: 'is_confirmed' })
   isConfirmed: boolean;
 

@@ -1,15 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateTransactionInput } from 'src/app/resources/transactions/dto/create-transaction.input';
 import { UpdateTransactionInput } from 'src/app/resources/transactions/dto/update-transaction.input';
 import { User } from 'src/app/resources/users/entities/user.entity';
 import { Repository, Between, LessThanOrEqual } from 'typeorm';
 import { startOfMonth, endOfMonth } from 'date-fns';
 import { RecurrentTransaction } from 'src/app/resources/transactions/entities/recurrent-transaction.entity';
+import { CreateRecurrentRecurrentTransactionEntity } from 'src/app/resources/transactions/dto/create-recurrent-transaction-entity';
 
-type CreateRecurrentRecurrentTransaction = CreateTransactionInput & {
-  user: User;
-};
 @Injectable()
 export class RecurrentTransactionsRepository {
   constructor(
@@ -18,9 +15,9 @@ export class RecurrentTransactionsRepository {
   ) {}
 
   async create(
-    dto: CreateRecurrentRecurrentTransaction,
+    dto: CreateRecurrentRecurrentTransactionEntity,
   ): Promise<RecurrentTransaction> {
-    const transaction = await this.typeorm.create(dto);
+    const transaction = this.typeorm.create(dto);
 
     await this.typeorm.save(transaction);
 
@@ -45,7 +42,7 @@ export class RecurrentTransactionsRepository {
     });
   }
 
-  findRecurrentTransactionsAfterThisMonth(
+  findPermanentTransactionsAfterThisMonth(
     { id }: User,
     year: number,
     month: number,
@@ -56,6 +53,7 @@ export class RecurrentTransactionsRepository {
       where: {
         user: { id },
         date: LessThanOrEqual(startRange),
+        isPermanent: true,
       },
     });
   }

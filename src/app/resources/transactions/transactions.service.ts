@@ -24,37 +24,45 @@ export class TransactionsService extends TransactionsHelper {
   }
 
   async create(dto: CreateTransactionInput, user: User): Promise<Transaction> {
-    const { isRecurrent, recurrenceTimes } = dto;
+    const { isPermanent, installments } = dto;
 
     const data = { ...dto, user };
 
-    if (!recurrenceTimes) {
-      const recurrentTransaction = isRecurrent
-        ? await this.recurrentTransactionsRepository.create(data)
-        : undefined;
+    if (installments) {
+      const recurrent = await this.recurrentTransactionsRepository.create(data);
 
-      const transaction = await this.transactionRepository.create({
-        ...data,
-        recurrentTransaction,
-      });
-
-      return transaction;
-    }
-
-    if (recurrenceTimes) {
       const createdTransactions = await Promise.all(
-        [...new Array(recurrenceTimes)].map((value, index) => {
-          const { date } = data;
+        [...new Array(installments)].map((_, index) => {
+          const { date, value } = data;
           const newValidMonth = addMonths(date, index);
+          const installmentAmount = Number(
+            parseFloat(String(value / installments)).toFixed(2),
+          );
 
-          const ajustedData = { ...data, date: newValidMonth };
+          const adjustedData: CreateTransactionEntity = {
+            ...data,
+            date: newValidMonth,
+            recurrentTransaction: recurrent,
+            value: installmentAmount,
+          };
 
-          return this.transactionRepository.create(ajustedData);
+          return this.transactionRepository.create(adjustedData);
         }),
       );
 
       return createdTransactions[0];
     }
+
+    const recurrentTransaction = isPermanent
+      ? await this.recurrentTransactionsRepository.create(data)
+      : undefined;
+
+    const transaction = await this.transactionRepository.create({
+      ...data,
+      recurrentTransaction,
+    });
+
+    return transaction;
   }
 
   findAllByUser(user: Transaction['user']): Promise<Transaction[]> {
@@ -62,8 +70,22 @@ export class TransactionsService extends TransactionsHelper {
   }
 
   async findTransactionsInMonth(user: User, year: number, month: number) {
+    return this.performMonthTransactions(user, year, month);
+  }
+
+  async getMonthBalance(user: User, year: number, month: number) {
+    await this.performMonthTransactions(user, year, month);
+
+    return this.transactionRepository.getMonthBalance(user, year, month);
+  }
+
+  private async performMonthTransactions(
+    user: User,
+    year: number,
+    month: number,
+  ): Promise<Transaction[]> {
     const recurrentTransactions =
-      await this.recurrentTransactionsRepository.findRecurrentTransactionsAfterThisMonth(
+      await this.recurrentTransactionsRepository.findPermanentTransactionsAfterThisMonth(
         user,
         year,
         month,
@@ -84,9 +106,9 @@ export class TransactionsService extends TransactionsHelper {
 
     const pendingTransactionsWithCurrentMonthDate =
       transactionsNotExistingOnThisMonth.map(({ date, ...data }) => {
-        const currentMonthDate = new Date(date.setMonth(month - 1));
+        const updatedDate = new Date(year, month - 1, date.getDate());
 
-        return { ...data, date: currentMonthDate };
+        return { ...data, date: updatedDate };
       });
 
     const thereIsTransactionsPending =
@@ -121,7 +143,7 @@ export class TransactionsService extends TransactionsHelper {
     const dto: CreateTransactionEntity = {
       recurrentTransaction: recurrent,
       ...recurrent,
-      isRecurrent: true,
+      isPermanent: true,
       user,
     };
 

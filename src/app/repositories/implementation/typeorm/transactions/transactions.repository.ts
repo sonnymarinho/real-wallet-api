@@ -6,6 +6,13 @@ import { User } from 'src/app/resources/users/entities/user.entity';
 import { Repository, Between } from 'typeorm';
 import { startOfMonth, endOfMonth } from 'date-fns';
 import { CreateTransactionEntity } from 'src/app/resources/transactions/dto/create-transaction-entity';
+import { DashboardStatus } from 'src/app/resources/transactions/entities/dashboard-status.entity';
+
+type BalanceStatusResult = {
+  incomes: number;
+  expenses: number;
+  balance: number;
+};
 
 @Injectable()
 export class TransactionsRepository {
@@ -36,6 +43,35 @@ export class TransactionsRepository {
       },
       relations: ['recurrentTransaction'],
     });
+  }
+
+  async getMonthBalance(user: User, year: number, month: number) {
+    const formattedMonth = String(month).padStart(2, '0');
+
+    const period = `${year}-${formattedMonth}`;
+
+    const [result] = await this.typeorm.query(`
+      select
+        sum(incomes) as "incomes",
+        sum(expenses) as "expenses",
+        sum(incomes) - sum(expenses) as "balance"
+      from
+        (
+        select
+          coalesce(sum(t."value") filter(where t."type" = 'income'), 0) as "incomes",
+          coalesce(sum(t."value") filter(where t."type" = 'expense'), 0) as "expenses",
+          to_char(t."date", 'YYYY-MM') as "period"
+        from
+          "transactions" "t"
+        group by
+          t."date") "status"
+      where
+        period like '${period}';
+    `);
+
+    const { incomes, expenses, balance } = result;
+
+    return new DashboardStatus({ incomes, expenses, balance });
   }
 
   async findOne(id: Transaction['id']): Promise<Transaction> {
