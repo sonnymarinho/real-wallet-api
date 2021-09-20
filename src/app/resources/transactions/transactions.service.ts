@@ -5,20 +5,19 @@ import { CreateTransactionInput } from './dto/create-transaction.input';
 import { Transaction } from './entities/transaction.entity';
 import { UpdateTransactionInput } from './dto/update-transaction.input';
 import { User } from '../users/entities/user.entity';
-import { RecurrentTransactionsRepository } from 'src/app/repositories/implementation/typeorm/transactions/recurrent-transactions.repository';
 import { TransactionsHelper } from './transactions.helper';
 import { RecurrentTransaction } from './entities/recurrent-transaction.entity';
 import { CreateTransactionEntity } from './dto/create-transaction-entity';
 import { plainToClass } from 'class-transformer';
 import { addMonths } from 'date-fns';
+import { RecurrentTransactionsService } from './recurrent-transactions.service';
 
 @Injectable()
 export class TransactionsService extends TransactionsHelper {
   constructor(
     @Inject(PROVIDER.TRANSACTIONS.REPOSITORY)
     private readonly transactionRepository: TransactionsRepository,
-    @Inject(PROVIDER.RECURRENT_TRANSACTIONS.REPOSITORY)
-    private readonly recurrentTransactionsRepository: RecurrentTransactionsRepository,
+    private readonly recurrentTransactionsService: RecurrentTransactionsService,
   ) {
     super();
   }
@@ -29,7 +28,7 @@ export class TransactionsService extends TransactionsHelper {
     const data = { ...dto, user };
 
     if (installments) {
-      const recurrent = await this.recurrentTransactionsRepository.create(data);
+      const recurrent = await this.recurrentTransactionsService.create(data);
 
       const createdTransactions = await Promise.all(
         [...new Array(installments)].map((_, index) => {
@@ -54,7 +53,7 @@ export class TransactionsService extends TransactionsHelper {
     }
 
     const recurrentTransaction = isPermanent
-      ? await this.recurrentTransactionsRepository.create(data)
+      ? await this.recurrentTransactionsService.create(data)
       : undefined;
 
     const transaction = await this.transactionRepository.create({
@@ -73,19 +72,13 @@ export class TransactionsService extends TransactionsHelper {
     return this.performMonthTransactions(user, year, month);
   }
 
-  async getMonthBalance(user: User, year: number, month: number) {
-    await this.performMonthTransactions(user, year, month);
-
-    return this.transactionRepository.getMonthBalance(user, year, month);
-  }
-
-  private async performMonthTransactions(
+  public async performMonthTransactions(
     user: User,
     year: number,
     month: number,
   ): Promise<Transaction[]> {
     const recurrentTransactions =
-      await this.recurrentTransactionsRepository.findPermanentTransactionsAfterThisMonth(
+      await this.recurrentTransactionsService.findPermanentTransactionsAfterThisMonth(
         user,
         year,
         month,

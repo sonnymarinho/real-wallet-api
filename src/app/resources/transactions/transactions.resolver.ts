@@ -7,9 +7,6 @@ import { JwtGuard } from '../auth/guard/jwt.guard';
 import { UseGuards } from '@nestjs/common';
 import { CurrentUser } from '../auth/decorators/current-user';
 import { User } from '../users/entities/user.entity';
-import { DashboardStatus } from './entities/dashboard-status.entity';
-
-type Status = { incomes: number; expenses: number; balance: number };
 
 @UseGuards(JwtGuard)
 @Resolver(() => Transaction)
@@ -37,21 +34,6 @@ export class TransactionsResolver {
     @CurrentUser() user: User,
   ) {
     return this.transactionsService.findTransactionsInMonth(user, year, month);
-  }
-
-  @Query(() => DashboardStatus, { name: 'getMonthBalance' })
-  async getMonthBalance(
-    @Args('month', { type: () => Number }) month: number,
-    @Args('year', { type: () => Number }) year: number,
-    @CurrentUser() user: User,
-  ) {
-    const result = await this.transactionsService.getMonthBalance(
-      user,
-      year,
-      month,
-    );
-
-    return result;
   }
 
   @Query(() => Transaction, { name: 'transactions' })

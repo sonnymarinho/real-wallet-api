@@ -11,5 +11,8 @@ export const PROVIDER = {
   RECURRENT_TRANSACTIONS: {
     REPOSITORY: 'RecurrentTransactionsRepository',
   },
+  DASHBOARD: {
+    REPOSITORY: 'DashboardRepository',
+  },
   HASH: 'HashProvider',
 };

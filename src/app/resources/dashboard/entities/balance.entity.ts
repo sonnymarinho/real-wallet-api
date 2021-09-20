@@ -1,8 +1,8 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
-export class DashboardStatus {
-  constructor(props: Partial<DashboardStatus> = {}) {
+export class Balance {
+  constructor(props: Partial<Balance> = {}) {
     Object.assign(this, { ...props });
   }
 
