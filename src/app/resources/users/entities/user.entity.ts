@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Exclude, Expose } from 'class-transformer';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Transaction } from '../../transactions/entities/transaction.entity';
+import { RecurrentTransaction } from '../../transactions/entities/recurrent-transaction.entity';
 
 @Expose()
 @ObjectType()
@@ -37,9 +38,16 @@ export class User {
   @Field()
   password: string;
 
-  @Field(type => [Transaction])
+  @Field(() => [Transaction])
   @OneToMany(() => Transaction, transaction => transaction.user)
   transactions: Transaction[];
+
+  @Field(() => [RecurrentTransaction])
+  @OneToMany(
+    () => RecurrentTransaction,
+    recurrentTransaction => recurrentTransaction.user,
+  )
+  recurrentTransactions;
 
   @CreateDateColumn()
   created_at: Date;

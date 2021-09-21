@@ -14,5 +14,8 @@ export const PROVIDER = {
   DASHBOARD: {
     REPOSITORY: 'DashboardRepository',
   },
+  CREDIT_CARD: {
+    REPOSITORY: 'CreditCardRepository',
+  },
   HASH: 'HashProvider',
 };

@@ -4,8 +4,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
   PrimaryColumn,
   UpdateDateColumn,
@@ -57,7 +55,7 @@ export class Transaction implements ITransaction {
   @ManyToOne(() => User, user => user.transactions)
   user: User;
 
-  @Field(type => RecurrentTransaction)
+  @Field(() => RecurrentTransaction)
   @ManyToOne(
     () => RecurrentTransaction,
     recurrentTransaction => recurrentTransaction.transactions,

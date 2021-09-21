@@ -48,7 +48,7 @@ export class RecurrentTransaction implements ITransaction {
   date: Date;
 
   @Exclude({ toPlainOnly: true })
-  @ManyToOne(() => User, user => user.transactions)
+  @ManyToOne(() => User, user => user.recurrentTransactions)
   user: User;
 
   @Field({ defaultValue: false })

@@ -12,7 +12,7 @@ export enum Environment {
   Provision = 'provision',
 }
 
-export enum EnviromentVariables {
+export enum EnvironmentVariables {
   NODE_ENV = 'NODE_ENV',
   PORT = 'PORT',
   DB_HOST = 'DB_HOST',
