@@ -9,7 +9,7 @@ import { PROVIDER } from '../../config/providers-name';
 import { IHashProvider } from '../../providers/criptography/abstract-hash.provider';
 import { User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
-import { AuthUserInput } from './dto/auth-user.input';
+import { AuthUserInput } from './dto/input/auth-user.input';
 import { IAuthResponse } from './type/auth-response';
 import { PayloadObject } from './type/payload-object';
 

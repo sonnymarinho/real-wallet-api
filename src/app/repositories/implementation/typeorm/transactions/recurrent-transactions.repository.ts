@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UpdateTransactionInput } from 'src/app/resources/transactions/dto/update-transaction.input';
+import { UpdateTransactionInput } from 'src/app/resources/transactions/dto/input/update-transaction.input';
 import { User } from 'src/app/resources/users/entities/user.entity';
 import { Repository, Between, LessThanOrEqual } from 'typeorm';
 import { startOfMonth, endOfMonth } from 'date-fns';
 import { RecurrentTransaction } from 'src/app/resources/transactions/entities/recurrent-transaction.entity';
-import { CreateRecurrentRecurrentTransactionEntity } from 'src/app/resources/transactions/dto/create-recurrent-transaction-entity';
+import { CreateRecurrentRecurrentTransactionEntity } from 'src/app/resources/transactions/dto/entity/create-recurrent-transaction-entity';
 
 @Injectable()
 export class RecurrentTransactionsRepository {

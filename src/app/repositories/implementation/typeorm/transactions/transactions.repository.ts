@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UpdateTransactionInput } from 'src/app/resources/transactions/dto/update-transaction.input';
+import { UpdateTransactionInput } from 'src/app/resources/transactions/dto/input/update-transaction.input';
 import { Transaction } from 'src/app/resources/transactions/entities/transaction.entity';
 import { User } from 'src/app/resources/users/entities/user.entity';
 import { Repository, Between } from 'typeorm';
 import { startOfMonth, endOfMonth } from 'date-fns';
-import { CreateTransactionEntity } from 'src/app/resources/transactions/dto/create-transaction-entity';
+import { CreateTransactionEntity } from 'src/app/resources/transactions/dto/entity/create-transaction-entity';
 
 @Injectable()
 export class TransactionsRepository {
@@ -21,6 +21,7 @@ export class TransactionsRepository {
 
     return transaction;
   }
+
   async findAllByUser(user: Transaction['user']): Promise<Transaction[]> {
     return this.typeorm.find({ where: { user } });
   }

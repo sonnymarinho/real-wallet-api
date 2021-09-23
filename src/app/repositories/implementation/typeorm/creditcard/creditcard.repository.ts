@@ -3,16 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Between, Repository } from 'typeorm';
 import { User } from 'src/app/resources/users/entities/user.entity';
 import { endOfMonth, startOfMonth } from 'date-fns';
-import { UpdateTransactionInput } from 'src/app/resources/transactions/dto/update-transaction.input';
-import { CreateTransactionEntity } from 'src/app/resources/transactions/dto/create-transaction-entity';
+import { UpdateTransactionInput } from 'src/app/resources/transactions/dto/input/update-transaction.input';
 import { Creditcard } from 'src/app/resources/creditcard/entities/creditcard.entity';
-import { CreateCreditcardInput } from 'src/app/resources/creditcard/dto/create-creditcard.input';
-
-type BalanceQueryResult = {
-  incomes: number;
-  expenses: number;
-  balance: number;
-};
+import { CreateCreditcardInput } from 'src/app/resources/creditcard/dto/input/create-creditcard.input';
 
 @Injectable()
 export class CreditCardRepository {

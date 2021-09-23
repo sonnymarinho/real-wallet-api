@@ -9,6 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
+import { Creditcard } from '../../creditcard/entities/creditcard.entity';
 import { User } from '../../users/entities/user.entity';
 import { ITransaction, TransactionType } from '../types/transaction';
 import { RecurrentTransaction } from './recurrent-transaction.entity';
@@ -54,6 +55,10 @@ export class Transaction implements ITransaction {
   @Exclude({ toPlainOnly: true })
   @ManyToOne(() => User, user => user.transactions)
   user: User;
+
+  @Field(() => Creditcard)
+  @ManyToOne(() => Creditcard, creditCard => creditCard.user)
+  creditCard: Creditcard;
 
   @Field(() => RecurrentTransaction)
   @ManyToOne(

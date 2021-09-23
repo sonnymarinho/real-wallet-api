@@ -3,7 +3,7 @@ import { PROVIDER } from '../../config/providers-name';
 import { User } from '../users/entities/user.entity';
 import { RecurrentTransactionsRepository } from 'src/app/repositories/implementation/typeorm/transactions/recurrent-transactions.repository';
 import { RecurrentTransaction } from './entities/recurrent-transaction.entity';
-import { CreateRecurrentRecurrentTransactionEntity } from './dto/create-recurrent-transaction-entity';
+import { CreateRecurrentRecurrentTransactionEntity } from './dto/entity/create-recurrent-transaction-entity';
 
 @Injectable()
 export class RecurrentTransactionsService {

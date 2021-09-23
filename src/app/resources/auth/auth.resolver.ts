@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
-import { AuthUserInput } from './dto/auth-user.input';
+import { AuthUserInput } from './dto/input/auth-user.input';
 import { Auth } from './entities/auth.entity';
 
 @UseInterceptors(ClassSerializerInterceptor)

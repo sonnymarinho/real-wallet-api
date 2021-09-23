@@ -1,8 +1,8 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { TransactionsService } from './transactions.service';
 import { Transaction } from './entities/transaction.entity';
-import { CreateTransactionInput } from './dto/create-transaction.input';
-import { UpdateTransactionInput } from './dto/update-transaction.input';
+import { CreateTransactionInput } from './dto/input/create-transaction.input';
+import { UpdateTransactionInput } from './dto/input/update-transaction.input';
 import { JwtGuard } from '../auth/guard/jwt.guard';
 import { UseGuards } from '@nestjs/common';
 import { CurrentUser } from '../auth/decorators/current-user';

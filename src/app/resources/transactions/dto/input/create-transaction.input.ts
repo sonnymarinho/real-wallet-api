@@ -9,7 +9,7 @@ import {
   IsString,
   MaxLength,
 } from 'class-validator';
-import { TransactionType } from '../types/transaction';
+import { TransactionType } from '../../types/transaction';
 
 @InputType()
 export class CreateTransactionInput {
@@ -52,9 +52,15 @@ export class CreateTransactionInput {
 
   @IsDate()
   @IsOptional()
-  @Field(type => Date, { nullable: true })
+  @Field(() => Date, { nullable: true })
   @Expose()
   date = new Date();
+
+  @IsString()
+  @IsOptional()
+  @Field({ nullable: true })
+  @Expose()
+  creditCardId?: string;
 
   @Field({ defaultValue: false, nullable: true })
   @IsBoolean()
