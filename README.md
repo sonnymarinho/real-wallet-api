@@ -1,72 +1,89 @@
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
+  <img src="./docs/assets/logo.svg" width="320" alt="Nest Logo" />
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+<p align="center">A personal finance manager app.</p>
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This is a simple personal financial manager app that should allow the user to insert their transactions, either be simple transactions or periodic transactions, and associate them with one credit card if necessary.
 
 ## Installation
 
+_Obs: make sure that docker is installed._
+
+**1. Node.js dependencies**
+
+Install all the dependencies typing:
+
 ```bash
-$ npm install
+$ yarn install
 ```
+
+**2. Docker**
+
+The app uses a connection with Postres SQL. To create a new one, you can just type
+
+```bash
+$ docker-compose up
+```
+
+to create a new instance with the settings stablished on `docker-compose.yml` file, located at the root path.
 
 ## Running the app
 
 ```bash
 # development
-$ npm run start
+$ yarn start
 
 # watch mode
-$ npm run start:dev
+$ yarn start:dev
 
 # production mode
-$ npm run start:prod
+$ yarn start:prod
 ```
 
-## Test
+## Tecnologies
 
-```bash
-# unit tests
-$ npm run test
+- GraphQL
+- Typescript
+- Postgres SQL
+- SQLite
+- TypeORM
+- Docker
+- Bcrypt
+- JWT
+- Nest.js
+- Jest
 
-# e2e tests
-$ npm run test:e2e
+## Database
 
-# test coverage
-$ npm run test:cov
-```
+<p align="center">
+  <img src="./docs/assets/database_schema.png" width="320" alt="Nest Logo" />
+</p>
 
-## Support
+- **Transactions**
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+  Should contain all existing user transactions at this time, either be a simple transaction, or either be generated through querying an recurrent transaction. The transaction created represents the traffic in the account, beeing a income or outcome transaction, with one title and description.
 
-## Stay in touch
+  About some fields, the `is_confirmed` field is used to indicated wheter the transaction is already paid/received or not, and the `credit_card_id`, as the name says, indicates the id that represents the credit card.
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- **Recurrent Transactions**
+
+  Would be used to create some transaction that repeat more than one time, like
+  monthly debts and debts debts in installments
+
+  Has basically the same fields founded in the _Transactions Table_. Thats why the _Recurrent Transactions_ is used behind the scenes to create an materialized replica of that transaction referring the requested period.
+
+  It's just a table for consultation, which serves to read the data of recurring transactions and make them real when consulted in some period where they should exist.
+
+- **Credit Cards**
+
+  It's just the table to store the user's credit cards, with their titles and descriptions.
+
+- **Users**
+
+  The table responsible to store the user's data, such as the name, email and the password.
 
 ## License
 
