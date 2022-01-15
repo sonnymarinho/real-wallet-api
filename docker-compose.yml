@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:14.1
+    container_name: realwallet-postgres
+    healthcheck:
+      test:
+        ["CMD", "pg_isready","-q","-d","postgres","-U","postgres"]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=docker
+      - APP_DB_USER=realwallet
+      - APP_DB_PASS=supersecret
+      - APP_DB_NAME=realwallet
+    volumes:
+      - ./docker/db:/docker-entrypoint-initdb.d/
+    ports:
+      - 5432:5432
