@@ -1,5 +1,8 @@
-version: '3'
+version: '3.8'
 
+volumes:
+  realwallet_postgres_volume:
+  
 services:
   postgres:
     image: postgres:14.1
@@ -12,6 +15,7 @@ services:
       retries: 10
     restart: always
     environment:
+      - PGDATA=/data/db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=docker
       - APP_DB_USER=realwallet
@@ -19,5 +23,6 @@ services:
       - APP_DB_NAME=realwallet
     volumes:
       - ./docker/db:/docker-entrypoint-initdb.d/
+      - "realwallet_postgres_volume:/data/db"
     ports:
-      - 5432:5432
+      - '5432:5432'
